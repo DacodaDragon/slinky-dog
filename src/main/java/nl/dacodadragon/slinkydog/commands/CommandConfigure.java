@@ -15,11 +15,9 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandConfigure implements CommandExecutor, TabCompleter {
-	private final JavaPlugin plugin;
 	private final SettingsAccessor settings;
 
 	public CommandConfigure(JavaPlugin plugin, Class<?> configType) {
-		this.plugin = plugin;
 		settings = new SettingsAccessor(plugin, configType, plugin.getConfig());
 	}
 

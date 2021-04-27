@@ -8,6 +8,7 @@ public class EnumUtil {
 		return Arrays.toString(e.getEnumConstants()).replaceAll("^.|.$", "").split(", ");
 	}
 
+	@SuppressWarnings("rawtypes")
 	public static String[] getLoweredNames(Class e) {
 		return Arrays.toString(e.getEnumConstants()).replaceAll("^.|.$", "").toLowerCase().split(", ");
 	}
