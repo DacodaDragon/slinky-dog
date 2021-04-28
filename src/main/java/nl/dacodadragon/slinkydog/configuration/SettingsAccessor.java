@@ -93,7 +93,8 @@ public class SettingsAccessor {
 			case "clear": setting.clearCollection(); break;
 		}
 
-
+		configFile.set(setting.getNameInFile(), setting.getValue());
+		plugin.saveConfig();
 	}
 
 	private void setPrimitiveValue(Setting setting, String value) {
