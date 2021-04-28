@@ -1,6 +1,7 @@
 package nl.dacodadragon.slinkydog.configuration;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -46,7 +47,8 @@ public final class SettingsContainer {
 	private void addAllFieldsOfType(Class<?> type){
 		Field[] fields = type.getDeclaredFields();
 		for (Field field : fields)
-			addField(field);
+			if (Modifier.isStatic(field.getModifiers()))
+				addField(field);
 	}
 
 	private void addField(Field field) {
