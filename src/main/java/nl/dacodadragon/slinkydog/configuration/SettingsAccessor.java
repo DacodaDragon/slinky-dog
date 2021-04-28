@@ -1,6 +1,5 @@
 package nl.dacodadragon.slinkydog.configuration;
 
-import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
