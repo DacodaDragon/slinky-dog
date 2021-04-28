@@ -2,10 +2,6 @@ package nl.dacodadragon.slinkydog;
 
 import java.util.logging.Logger;
 
-import javax.swing.text.BadLocationException;
-
-import org.bukkit.plugin.Plugin;
-
 public final class SlinkydogDebug {
 	private static Logger debugLogger;
 
