@@ -9,29 +9,31 @@ import java.util.List;
 public final class ConfigurationValueParser {
 
 	public static Object parse(ParseContext context) {
-		if (context.getExpectedType().equals(String.class))
+		Class<?> targetType = context.getExpectedType();
+
+		if (targetType.equals(String.class))
 			return context.getValue();
 
-		if (context.getExpectedType().equals(int.class) || context.getExpectedType().equals(Integer.class))
+		if (targetType.equals(int.class) || targetType.equals(Integer.class))
 			return parseInt(context);
 
-		if (context.getExpectedType().equals(double.class) || context.getExpectedType().equals(Double.class))
+		if (targetType.equals(double.class) || targetType.equals(Double.class))
 			return parseDouble(context);
 
-		if (context.getExpectedType().equals(float.class) || context.getExpectedType().equals(Float.class))
+		if (targetType.equals(float.class) || targetType.equals(Float.class))
 			return parseFloat(context);
 
-		if (context.getExpectedType().equals(boolean.class) || context.getExpectedType().equals(Boolean.class))
+		if (targetType.equals(boolean.class) || targetType.equals(Boolean.class))
 			return parseBoolean(context);
 
-		if (context.getExpectedType().isEnum())
+		if (targetType.isEnum())
 			return parseEnumValue(context);
 
 		if (context.isCollection()){
 			return parse(context.sameContextWithType(context.collectionElementType()));
 		}
 
-		throw new RuntimeException("Cannot parse type " + context.getExpectedType().getName());
+		throw new RuntimeException("Cannot parse type " + targetType.getName());
 
 	}
 
