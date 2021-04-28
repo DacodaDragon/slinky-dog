@@ -47,8 +47,14 @@ public final class SettingsContainer {
 	private void addAllFieldsOfType(Class<?> type){
 		Field[] fields = type.getDeclaredFields();
 		for (Field field : fields)
-			if (Modifier.isStatic(field.getModifiers()))
+			if (isValidField(field))
 				addField(field);
+	}
+
+	private boolean isValidField(Field field) {
+		int modifiers = field.getModifiers();
+		return Modifier.isStatic(modifiers)
+		&& !Modifier.isAbstract(modifiers);
 	}
 
 	private void addField(Field field) {
