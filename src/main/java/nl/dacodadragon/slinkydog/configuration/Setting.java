@@ -1,5 +1,6 @@
 package nl.dacodadragon.slinkydog.configuration;
 
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Field;
 
 import nl.dacodadragon.slinkydog.configuration.annotations.Description;
@@ -11,12 +12,14 @@ final class Setting {
 	private String nameInGame;
 	private String sectionInGame;
 	private String nameInFile;
+	private boolean isPrivate;
 
 	private String description;
 
 	public Setting(Field field) {
 		this.field = field;
 		this.fieldType = field.getType();
+		this.isPrivate = Modifier.isPrivate(field.getModifiers());
 
 		SettingInfo info = getSettingInfoForField(field);
 		this.nameInGame = info.nameInGame();
@@ -43,7 +46,11 @@ final class Setting {
 
 	public void setValue(Object value) {
 		try {
+			if (isPrivate)
+				field.setAccessible(true);
 			field.set(null, value);
+			if (isPrivate)
+				field.setAccessible(false);
 		} catch (IllegalArgumentException e) {
 			throw new RuntimeException(e);
 		} catch (IllegalAccessException e) {
@@ -53,7 +60,12 @@ final class Setting {
 
 	public Object GetValue() {
 		try {
-			return field.get(null);
+			if (isPrivate)
+				field.setAccessible(true);
+			Object value = field.get(null);
+			if (isPrivate)
+				field.setAccessible(false);
+			return value;
 		} catch (IllegalArgumentException e) {
 			throw new RuntimeException(e);
 		} catch (IllegalAccessException e) {
