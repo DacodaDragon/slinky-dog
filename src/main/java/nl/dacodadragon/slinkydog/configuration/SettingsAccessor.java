@@ -83,7 +83,7 @@ public class SettingsAccessor {
 			return;
 		}
 
-		SetPrimitiveValue(setting, args[2]);
+		setPrimitiveValue(setting, args[2]);
 	}
 
 	private void performCollectionAction(Setting setting, String[] args){
@@ -92,9 +92,11 @@ public class SettingsAccessor {
 			case "remove": setting.removeValue(parse(setting, args[3]));break;
 			case "clear": setting.clearCollection(); break;
 		}
+
+
 	}
 
-	private void SetPrimitiveValue(Setting setting, String value) {
+	private void setPrimitiveValue(Setting setting, String value) {
 		setting.setValue(parse(setting, value));
 		configFile.set(setting.getNameInFile(), setting.getValue());
 		plugin.saveConfig();
