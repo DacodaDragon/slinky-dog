@@ -8,7 +8,7 @@ import java.util.List;
 
 public final class ConfigurationValueParser {
 
-	public static Object getValue(ParseContext context) {
+	public static Object parse(ParseContext context) {
 		if (context.getExpectedType().equals(String.class))
 			return context.getValue();
 

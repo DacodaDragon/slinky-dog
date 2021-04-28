@@ -2,10 +2,17 @@ package nl.dacodadragon.slinkydog.configuration;
 
 public final class ParseContext {
 
-	private Class<?> expectedType;
-	private String section;
-	private String setting;
-	private String value;
+	private final Class<?> expectedType;
+	private final String section;
+	private final String setting;
+	private final String value;
+
+	public ParseContext(Setting setting, String value) {
+		this.expectedType = setting.getFieldType();
+		this.section = setting.getSectionInGame();
+		this.setting = setting.getNameInGame();
+		this.value = value;
+	}
 
 	public ParseContext(String section, String setting, String value, Class<?> expectedType) {
 		this.section = section;

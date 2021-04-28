@@ -58,25 +58,28 @@ public class SettingsAccessor {
 		return ArgumentConsts.noArgs;
 	}
 
-	public void setSetting(String section, String settingName, String value) {
-		if (!settings.sectionExists(section))
-			throw new MissingSectionException(section);
+	public void setSetting(String sectionName, String settingName, String value) {
+		Setting setting = getSetting(sectionName, settingName);
 
-		if (!settings.settingExists(section, settingName))
-			throw new MissingSettingException(section, settingName);
+		ParseContext context = new ParseContext(setting, value);
+		Object rawValue = ConfigurationValueParser.parse(context);
 
-		SectionMapping sectionObject = settings.getSection(section);
-		Setting setting = sectionObject.getSetting(settingName);
-		ParseContext context = new ParseContext(section, settingName, value, setting.getFieldType());
-		Object rawValue = ConfigurationValueParser.getValue(context);
-		setting.setValue(rawValue);
-
-		SlinkydogDebug.softNullAssert(sectionObject, "sectionObject");
-		SlinkydogDebug.softNullAssert(setting, "field");
 		SlinkydogDebug.softNullAssert(configFile, "configFile");
 		SlinkydogDebug.softNullAssert(rawValue, "rawValue");
+		SlinkydogDebug.softNullAssert(plugin, "plugin");
 
+		setting.setValue(rawValue);
 		configFile.set(setting.getNameInFile(), rawValue);
 		plugin.saveConfig();
+	}
+
+	private Setting getSetting(String sectionName, String settingName){
+		if (!settings.sectionExists(sectionName))
+			throw new MissingSectionException(sectionName);
+
+		if (!settings.settingExists(sectionName, settingName))
+			throw new MissingSettingException(sectionName, settingName);
+
+		return settings.getSection(sectionName).getSetting(settingName);
 	}
 }
