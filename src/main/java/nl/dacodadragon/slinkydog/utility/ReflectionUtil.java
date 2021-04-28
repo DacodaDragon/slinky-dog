@@ -21,7 +21,9 @@ public class ReflectionUtil {
         if (collectionType.equals(String.class)) {
             List<String> stringCollection = (List<String>)list;
             stringCollection.add((String)value);
+            return;
         }
+        
 
         throw new RuntimeException("ElementType of " + collectionType.getName() + " is not (yet) supported");
     }
@@ -32,6 +34,7 @@ public class ReflectionUtil {
         if (collectionType.equals(String.class)) {
             List<String> stringCollection = (List<String>)list;
             stringCollection.remove((String)value);
+            return;
         }
 
         throw new RuntimeException("ElementType of " + collectionType.getName() + " is not (yet) supported");
@@ -42,6 +45,7 @@ public class ReflectionUtil {
         if (collectionType.equals(String.class)) {
             List<String> stringCollection = (List<String>)list;
             stringCollection.clear();
+            return;
         }
 
         throw new RuntimeException("ElementType of " + collectionType.getName() + " is not (yet) supported");
