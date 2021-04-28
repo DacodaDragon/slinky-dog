@@ -28,7 +28,7 @@ public class CommandConfigure implements CommandExecutor, TabCompleter {
 			return true;
 		}
 
-		if (args.length > 3){
+		if (args.length > 2){
 			setConfiguration(sender, args);
 			return true;
 		}
