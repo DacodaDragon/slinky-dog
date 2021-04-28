@@ -40,6 +40,9 @@ public class SettingsAccessor {
 	}
 
 	public List<String> getSettingArguments(String[] args) {
+		if (args.length < 1)
+			return ArgumentConsts.noArgs;
+
 		if (!settings.settingExists(args[0], args[1]))
 			return ArgumentConsts.noArgs;
 		Setting setting = getSetting(args[0], args[1]);
