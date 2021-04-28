@@ -110,14 +110,14 @@ final class Setting {
 	}
 
 	public void addValue(Object value) {
-		ReflectionUtil.addToCollection(getValue(), value);
+		ReflectionUtil.addToCollection(getValue(), getElementType(), value);
 	}
 
 	public void removeValue(Object value) {
-		ReflectionUtil.removedFromCollection(getValue(), value);
+		ReflectionUtil.removedFromCollection(getValue(),getElementType(), value);
 	}
 
 	public void clearCollection(){
-		ReflectionUtil.clearCollection(getValue());
+		ReflectionUtil.clearCollection(getValue(), getElementType());
 	}
 }

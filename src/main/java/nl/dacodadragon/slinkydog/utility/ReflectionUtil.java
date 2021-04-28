@@ -15,8 +15,7 @@ public class ReflectionUtil {
         return type.isArray() || List.class.isAssignableFrom(type);
     }
 
-    public static void addToCollection(Object list, Object value) {
-        Class<?> collectionType = getCollectionElementType(list.getClass().getGenericSuperclass());
+    public static void addToCollection(Object list, Class<?> collectionType, Object value) {
         SlinkydogDebug.assertEqualType(collectionType, value.getClass());
 
         if (collectionType.equals(String.class)) {
@@ -27,8 +26,7 @@ public class ReflectionUtil {
         throw new RuntimeException("ElementType of " + collectionType.getName() + " is not (yet) supported");
     }
 
-    public static void removedFromCollection(Object list, Object value) {
-        Class<?> collectionType = getCollectionElementType(list.getClass().getGenericSuperclass());
+    public static void removedFromCollection(Object list, Class<?> collectionType, Object value) {
         SlinkydogDebug.assertEqualType(collectionType, value.getClass());
 
         if (collectionType.equals(String.class)) {
@@ -39,8 +37,7 @@ public class ReflectionUtil {
         throw new RuntimeException("ElementType of " + collectionType.getName() + " is not (yet) supported");
     }
 
-    public static void clearCollection(Object list) {
-        Class<?> collectionType = getCollectionElementType(list.getClass().getGenericSuperclass());
+    public static void clearCollection(Object list, Class<?> collectionType) {
 
         if (collectionType.equals(String.class)) {
             List<String> stringCollection = (List<String>)list;
