@@ -1,6 +1,5 @@
 package nl.dacodadragon.slinkydog.commands;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import nl.dacodadragon.slinkydog.SlinkydogDebug;
@@ -24,15 +23,16 @@ public class CommandConfigure implements CommandExecutor, TabCompleter {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-
-		switch (args.length) {
-		case 2:
+		if (args.length == 2) {
 			getConfiguration(sender, args[0], args[1]);
 			return true;
-		case 3:
+		}
+
+		if (args.length > 3){
 			setConfiguration(sender, args);
 			return true;
 		}
+		
 		return false;
 	}
 
@@ -74,10 +74,8 @@ public class CommandConfigure implements CommandExecutor, TabCompleter {
 			return settings.getSectionNames();
 		case 2:
 			return settings.getSettingNames(args[0]);
-		case 3:
-			return settings.getSettingArguments(args);
 		}
 
-		return new ArrayList<>();
+		return settings.getSettingArguments(args);
 	}
 }
