@@ -2,6 +2,10 @@ package nl.dacodadragon.slinkydog;
 
 import java.util.logging.Logger;
 
+import javax.swing.text.BadLocationException;
+
+import org.bukkit.plugin.Plugin;
+
 public final class SlinkydogDebug {
 	private static Logger debugLogger;
 
@@ -37,4 +41,17 @@ public final class SlinkydogDebug {
 		if (object == null)
 			error(message);
 	}
+
+	public static void assertEqualType(Object a, Object b) {
+		assertEqualType(a.getClass(), b.getClass());
+	}
+
+	public static void assertEqualType(Class<?> a, Class<?> b){
+		if (!a.equals(b))
+			throwNonEqualType(a, b);
+	}
+
+    private static void throwNonEqualType(Class<?> originalType, Class<?> targetType){
+        throw new RuntimeException("Type  " + originalType + " does not equal " + targetType);
+    }
 }

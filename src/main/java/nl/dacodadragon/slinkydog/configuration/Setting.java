@@ -2,13 +2,17 @@ package nl.dacodadragon.slinkydog.configuration;
 
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
+import java.util.List;
 
 import nl.dacodadragon.slinkydog.configuration.annotations.Description;
 import nl.dacodadragon.slinkydog.configuration.annotations.SettingInfo;
+import nl.dacodadragon.slinkydog.utility.ReflectionUtil;
 
 final class Setting {
 	private Field field;
 	private Class<?> fieldType;
+	private Type genericFieldType;
 	private String nameInGame;
 	private String sectionInGame;
 	private String nameInFile;
@@ -19,6 +23,7 @@ final class Setting {
 	public Setting(Field field) {
 		this.field = field;
 		this.fieldType = field.getType();
+		this.genericFieldType = field.getGenericType();
 		this.isPrivate = Modifier.isPrivate(field.getModifiers());
 
 		SettingInfo info = getSettingInfoForField(field);
@@ -58,7 +63,7 @@ final class Setting {
 		}
 	}
 
-	public Object GetValue() {
+	public Object getValue() {
 		try {
 			if (isPrivate)
 				field.setAccessible(true);
@@ -77,6 +82,18 @@ final class Setting {
 		return fieldType;
 	}
 
+	public Type getGenericFieldType(){
+		return genericFieldType;
+	}
+
+	public Class<?> getElementType(){
+		return ReflectionUtil.getCollectionElementType(getGenericFieldType());
+	}
+
+	public boolean isCollection(){
+		return ReflectionUtil.isCollection(getFieldType());
+	}
+
 	public String getNameInFile() {
 		return nameInFile;
 	}
@@ -91,5 +108,17 @@ final class Setting {
 
 	public String getDescription(){
 		return description;
+	}
+
+	public void addValue(Object value) {
+		ReflectionUtil.addToCollection(getValue(), value);
+	}
+
+	public void removeValue(Object value) {
+		ReflectionUtil.removedFromCollection(getValue(), value);
+	}
+
+	public void clearCollection(){
+		ReflectionUtil.clearCollection(getValue());
 	}
 }

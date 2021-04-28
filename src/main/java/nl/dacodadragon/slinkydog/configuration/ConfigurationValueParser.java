@@ -27,6 +27,10 @@ public final class ConfigurationValueParser {
 		if (context.getExpectedType().isEnum())
 			return parseEnumValue(context);
 
+		if (context.isCollection()){
+			return parse(context.sameContextWithType(context.collectionElementType()));
+		}
+
 		throw new RuntimeException("Cannot parse type " + context.getExpectedType().getName());
 
 	}

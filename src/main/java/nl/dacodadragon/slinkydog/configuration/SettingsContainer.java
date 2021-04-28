@@ -91,7 +91,7 @@ public final class SettingsContainer {
 			for (Setting setting : section.getAllSettings()) {
 				String settingLocation = setting.getNameInFile();
 				if (!config.contains(settingLocation))
-					config.set(settingLocation, setting.GetValue());
+					config.set(settingLocation, setting.getValue());
 			}
 		}
 		plugin.saveConfig();

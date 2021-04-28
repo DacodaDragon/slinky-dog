@@ -29,7 +29,7 @@ public class CommandConfigure implements CommandExecutor, TabCompleter {
 			getConfiguration(sender, args[0], args[1]);
 			return true;
 		case 3:
-			setConfiguration(sender, args[0], args[1], args[2]);
+			setConfiguration(sender, args);
 			return true;
 		}
 		return false;
@@ -54,10 +54,10 @@ public class CommandConfigure implements CommandExecutor, TabCompleter {
 		}
 	}
 
-	private void setConfiguration(final CommandSender sender, final String section, final String setting, final String value) {
+	private void setConfiguration(final CommandSender sender, String[] args) {
 		try {
-			settings.setSetting(section, setting, value);
-			getConfiguration(sender, section, setting);
+			settings.setSetting(args);
+			getConfiguration(sender, args[0], args[1]);
 		} catch (ConfigurationErrorException e) {
 			sender.sendMessage(ChatColor.RED + e.getMessage());
 		} catch (RuntimeException e) {
@@ -68,14 +68,13 @@ public class CommandConfigure implements CommandExecutor, TabCompleter {
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-
 		switch (args.length) {
 		case 1:
 			return settings.getSectionNames();
 		case 2:
 			return settings.getSettingNames(args[0]);
 		case 3:
-			return settings.getSettingArguments(args[0], args[1]);
+			return settings.getSettingArguments(args);
 		}
 
 		return new ArrayList<>();
