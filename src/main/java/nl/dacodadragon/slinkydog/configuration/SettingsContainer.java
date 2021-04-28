@@ -11,11 +11,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class SettingsContainer {
 	private final JavaPlugin plugin;
 	Collection<SectionMapping> sectionMappings = new ArrayList<>();
-	Class<?> type;
 
 	public SettingsContainer(JavaPlugin plugin, Class<?> type) {
 		this.plugin = plugin;
-		this.type = type;
+		addAllFieldsOfType(type);
 	}
 
 	public boolean sectionExists(String name) {
@@ -44,12 +43,17 @@ public final class SettingsContainer {
 		return getSection(section).containsSetting(setting);
 	}
 
-	public boolean addField(Field field) {
+	private void addAllFieldsOfType(Class<?> type){
+		Field[] fields = type.getDeclaredFields();
+		for (Field field : fields)
+			addField(field);
+	}
+
+	private void addField(Field field) {
 
 		Setting setting = new Setting(field);
 		createSection(setting.getSectionInGame());
 		addSettingToSection(setting, setting.getSectionInGame());
-		return true;
 	}
 
 	private void createSection(String name) {

@@ -20,11 +20,6 @@ public class SettingsAccessor {
 		this.plugin = plugin;
 		this.configFile = configFile;
 		settings = new SettingsContainer(plugin, configType);
-
-		Field[] fields = configType.getDeclaredFields();
-		for (Field field : fields)
-			settings.addField(field);
-
 		settings.writeAllDefaultValues(configFile);
 		settings.loadValuesFromSettings(configFile);
 	}
