@@ -18,6 +18,7 @@ public class CommandConfigure implements CommandExecutor, TabCompleter {
 	private final SettingsAccessor settings;
 
 	public CommandConfigure(JavaPlugin plugin, Class<?> configType) {
+		SlinkydogDebug.setLogTarget(plugin.getLogger());
 		settings = new SettingsAccessor(plugin, configType, plugin.getConfig());
 	}
 
