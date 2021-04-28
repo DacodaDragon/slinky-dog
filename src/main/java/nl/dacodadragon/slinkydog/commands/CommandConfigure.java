@@ -51,7 +51,7 @@ public class CommandConfigure implements CommandExecutor, TabCompleter {
 			sender.sendMessage(ChatColor.RED + e.getMessage());
 		} catch (RuntimeException e) {
 			sender.sendMessage(ChatColor.RED + "Internal exception occurred: " + e.getMessage());
-			SlinkydogDebug.error(e.toString() + "\n" + e.getStackTrace());
+			throw e;
 		}
 	}
 
@@ -63,7 +63,7 @@ public class CommandConfigure implements CommandExecutor, TabCompleter {
 			sender.sendMessage(ChatColor.RED + e.getMessage());
 		} catch (RuntimeException e) {
 			sender.sendMessage(ChatColor.RED + "Internal exception occurred: " + e.getMessage());
-			SlinkydogDebug.error(e.toString() + "\n" + e.getStackTrace());
+			throw e;
 		}
 	}
 
