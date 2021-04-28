@@ -16,7 +16,7 @@ public class ReflectionUtil {
     }
 
     public static void addToCollection(Object list, Object value) {
-        Class<?> collectionType = getCollectionElementType(list.getClass());
+        Class<?> collectionType = getCollectionElementType(list.getClass().getGenericSuperclass());
         SlinkydogDebug.assertEqualType(collectionType, value.getClass());
 
         if (collectionType.equals(String.class)) {
@@ -28,7 +28,7 @@ public class ReflectionUtil {
     }
 
     public static void removedFromCollection(Object list, Object value) {
-        Class<?> collectionType = getCollectionElementType(list.getClass());
+        Class<?> collectionType = getCollectionElementType(list.getClass().getGenericSuperclass());
         SlinkydogDebug.assertEqualType(collectionType, value.getClass());
 
         if (collectionType.equals(String.class)) {
@@ -40,7 +40,7 @@ public class ReflectionUtil {
     }
 
     public static void clearCollection(Object list) {
-        Class<?> collectionType = getCollectionElementType(list.getClass());
+        Class<?> collectionType = getCollectionElementType(list.getClass().getGenericSuperclass());
 
         if (collectionType.equals(String.class)) {
             List<String> stringCollection = (List<String>)list;
