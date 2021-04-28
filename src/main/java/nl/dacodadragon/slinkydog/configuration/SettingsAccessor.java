@@ -51,6 +51,10 @@ public class SettingsAccessor {
 		return ArgumentConsts.noArgs;
 	}
 
+	public String getSettingDescription(String sectionName, String settingName) {
+		return getSetting(sectionName, settingName).getDescription();
+	}
+
 	public void setSetting(String sectionName, String settingName, String value) {
 		Setting setting = getSetting(sectionName, settingName);
 

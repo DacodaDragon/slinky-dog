@@ -38,6 +38,14 @@ public class CommandConfigure implements CommandExecutor, TabCompleter {
 	private void getConfiguration(final CommandSender sender, final String section, final String setting) {
 		try {
 			sender.sendMessage(ChatColor.GOLD + "Value for " + section + "-" + setting + ": " + ChatColor.YELLOW + settings.getSettingValue(section, setting));
+			String description = settings.getSettingDescription(section, setting);
+
+			if (description.equals(""))
+			{
+				description = "Not available.";
+			}
+
+			sender.sendMessage(ChatColor.GOLD + "Description: " + ChatColor.YELLOW + description);
 		} catch (ConfigurationErrorException e) {
 			sender.sendMessage(ChatColor.RED + e.getMessage());
 		} catch (RuntimeException e) {

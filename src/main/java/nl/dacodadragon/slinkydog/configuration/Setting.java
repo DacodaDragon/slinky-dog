@@ -1,6 +1,8 @@
 package nl.dacodadragon.slinkydog.configuration;
 
 import java.lang.reflect.Field;
+
+import nl.dacodadragon.slinkydog.configuration.annotations.Description;
 import nl.dacodadragon.slinkydog.configuration.annotations.SettingInfo;
 
 final class Setting {
@@ -10,24 +12,33 @@ final class Setting {
 	private String sectionInGame;
 	private String nameInFile;
 
+	private String description;
+
 	public Setting(Field field) {
 		this.field = field;
 		this.fieldType = field.getType();
 
-		SettingInfo info = getSettingInfo(field);
+		SettingInfo info = getSettingInfoForField(field);
 		this.nameInGame = info.nameInGame();
 		this.sectionInGame = info.sectionInGame();
 		this.nameInFile = info.nameInFile();
+
+		this.description = getDescriptionForField(field);
 	}
 
-	private SettingInfo getSettingInfo(Field field) {
-		SettingInfo info = field.getAnnotation(SettingInfo.class);
-		if (info == null){
+	private SettingInfo getSettingInfoForField(Field field) {
+		if (!field.isAnnotationPresent(SettingInfo.class)){
 			final String message = "Field %s is missing a SettingInfo Annotation.";
 			throw new NullPointerException(
 				String.format(message, field.getName()));
 		} 
-		return info;
+		return field.getAnnotation(SettingInfo.class);
+	}
+
+	private String getDescriptionForField(Field field){
+		if (field.isAnnotationPresent(Description.class))
+			return field.getAnnotation(Description.class).value();
+		return "";
 	}
 
 	public void setValue(Object value) {
@@ -64,5 +75,9 @@ final class Setting {
 
 	public String getNameInGame() {
 		return nameInGame;
+	}
+
+	public String getDescription(){
+		return description;
 	}
 }
