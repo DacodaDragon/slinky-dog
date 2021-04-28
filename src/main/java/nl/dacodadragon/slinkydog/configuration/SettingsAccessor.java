@@ -14,12 +14,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class SettingsAccessor {
 	private final JavaPlugin plugin;
 	private final SettingsContainer settings;
-	private final Class<?> type;
 	private final FileConfiguration configFile;
 
 	public SettingsAccessor(JavaPlugin plugin, Class<?> configType, FileConfiguration configFile) {
 		this.plugin = plugin;
-		this.type = configType;
 		this.configFile = configFile;
 		settings = new SettingsContainer(plugin, configType);
 
