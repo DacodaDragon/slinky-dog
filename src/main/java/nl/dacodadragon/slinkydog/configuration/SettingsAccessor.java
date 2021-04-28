@@ -24,14 +24,7 @@ public class SettingsAccessor {
 	}
 
 	public String getSettingValue(String section, String setting) {
-
-		if (!settings.sectionExists(section))
-			throw new MissingSectionException(section);
-
-		if (!settings.settingExists(section, setting))
-			throw new MissingSettingException(section, setting);
-
-		return "" + settings.getSetting(section, setting).GetValue();
+		return "" + getSetting(section, setting).GetValue();
 	}
 
 	public List<String> getSectionNames() {
@@ -80,6 +73,6 @@ public class SettingsAccessor {
 		if (!settings.settingExists(sectionName, settingName))
 			throw new MissingSettingException(sectionName, settingName);
 
-		return settings.getSection(sectionName).getSetting(settingName);
+		return settings.getSetting(sectionName, settingName);
 	}
 }
