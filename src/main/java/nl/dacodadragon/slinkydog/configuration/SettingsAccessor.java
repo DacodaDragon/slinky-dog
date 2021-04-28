@@ -82,14 +82,13 @@ public class SettingsAccessor {
 			performCollectionAction(setting, args);
 			return;
 		}
-
-		setPrimitiveValue(setting, args[2]);
+		setPrimitiveValue(setting, args);
 	}
 
-	private void performCollectionAction(Setting setting, String[] args){
+	private void performCollectionAction(Setting setting, String[] args) {
 		switch (args[2].toLowerCase()) {
-			case "add": setting.addValue(parse(setting, args[3])); break;
-			case "remove": setting.removeValue(parse(setting, args[3]));break;
+			case "add": ; addToCollection(setting, args); break;
+			case "remove": removeFromCollection(setting, args); break;
 			case "clear": setting.clearCollection(); break;
 		}
 
@@ -97,8 +96,34 @@ public class SettingsAccessor {
 		plugin.saveConfig();
 	}
 
-	private void setPrimitiveValue(Setting setting, String value) {
-		setting.setValue(parse(setting, value));
+	private void addToCollection(Setting setting, String[] args) {
+
+		String input = args[3];
+		if (setting.getFieldType().equals(String.class)){
+			input = String.join(" ", Arrays.copyOfRange(args, 3, args.length));
+		}
+
+		setting.addValue(parse(setting, input));
+	}
+
+	private void removeFromCollection(Setting setting, String[] args){
+		String input = args[3];
+		if (setting.getFieldType().equals(String.class)){
+			input = String.join(" ", Arrays.copyOfRange(args, 3, args.length));
+		}
+
+		setting.removeValue(parse(setting, input));
+	}
+
+	private void setPrimitiveValue(Setting setting, String[] value) {
+		
+		String input = value[2];
+		if (setting.getFieldType().equals(String.class)){
+			input = String.join(" ",Arrays.copyOfRange(value, 2, value.length));
+		}
+		
+		
+		setting.setValue(parse(setting, input));
 		configFile.set(setting.getNameInFile(), setting.getValue());
 		plugin.saveConfig();
 	}
