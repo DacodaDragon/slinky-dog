@@ -45,21 +45,20 @@ public final class SettingsContainer {
 	}
 
 	public boolean addField(Field field) {
-		String name = field.getName();
 
-		if (!name.contains("_"))
-			return false;
-
-		String[] values = name.split("_");
-
-		if (values.length != 2)
-			return false;
-
-		if (!sectionExists(values[0]))
-			createNewSection(values[0]);
-
-		getSection(values[0]).addField(field, values[1]);
+		Setting setting = new Setting(field);
+		createSection(setting.getSectionInGame());
+		addSettingToSection(setting, setting.getSectionInGame());
 		return true;
+	}
+
+	private void createSection(String name) {
+		if (!sectionExists(name))
+			createNewSection(name);
+	}
+
+	private void addSettingToSection(Setting setting, String sectionName){
+		getSection(sectionName).addSetting(setting);
 	}
 
 	public void createNewSection(String name) {
@@ -78,7 +77,7 @@ public final class SettingsContainer {
 	public void writeAllDefaultValues(FileConfiguration config) {
 		for (SectionMapping section : sectionMappings) {
 			for (Setting setting : section.getAllSettings()) {
-				String settingLocation = type.getSimpleName() + "." + section.name + "." + setting.name;
+				String settingLocation = setting.getNameInFile();
 				if (!config.contains(settingLocation))
 					config.set(settingLocation, setting.GetValue());
 			}
@@ -89,8 +88,8 @@ public final class SettingsContainer {
 	public void loadValuesFromSettings(FileConfiguration config) {
 		for (SectionMapping section : sectionMappings) {
 			for (Setting setting : section.getAllSettings()) {
-				String settingLocation = type.getSimpleName() + "." + section.name + "." + setting.name;
-				setting.setValue(config.get(settingLocation), false);
+				String settingLocation = setting.getNameInFile();
+				setting.setValue(config.get(settingLocation));
 			}
 		}
 	}

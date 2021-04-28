@@ -1,6 +1,5 @@
 package nl.dacodadragon.slinkydog.configuration;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -11,33 +10,30 @@ final class SectionMapping {
 
 	public boolean containsSetting(String name) {
 		for (Setting mapping : settings)
-			if (mapping.name.equalsIgnoreCase(name))
+			if (mapping.getNameInGame().equalsIgnoreCase(name))
 				return true;
 		return false;
 	}
 
 	public Setting getSetting(String name) {
 		for (Setting mapping : settings)
-			if (mapping.name.equalsIgnoreCase(name))
+			if (mapping.getNameInGame().equalsIgnoreCase(name))
 				return mapping;
 		throw null;
 	}
 
-	public boolean addField(Field field, String name) {
-		if (containsSetting(name))
+	public boolean addSetting(Setting setting) {
+		if (containsSetting(setting.getNameInGame()))
 			return false;
 
-		Setting mapping = new Setting();
-		mapping.field = field;
-		mapping.name = name;
-		settings.add(mapping);
+		settings.add(setting);
 		return true;
 	}
 
 	public List<String> getSettingNames() {
 		List<String> names = new ArrayList<>();
 		for (Setting mapping : settings)
-			names.add(mapping.name);
+			names.add(mapping.getNameInGame());
 		return names;
 	}
 

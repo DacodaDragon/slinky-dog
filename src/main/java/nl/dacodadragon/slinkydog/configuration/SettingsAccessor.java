@@ -54,7 +54,7 @@ public class SettingsAccessor {
 
 	public List<String> getSettingArguments(String section, String setting) {
 		if (settings.settingExists(section, setting)) {
-			Class<?> type = settings.getSection(section).getSetting(setting).field.getType();
+			Class<?> type = settings.getSection(section).getSetting(setting).getFieldType();
 			if (type.equals(boolean.class) || type.equals(Boolean.class)) {
 				return ArgumentConsts.booleanArgs;
 			}
@@ -66,25 +66,25 @@ public class SettingsAccessor {
 		return ArgumentConsts.noArgs;
 	}
 
-	public void setSetting(String section, String setting, String value) {
+	public void setSetting(String section, String settingName, String value) {
 		if (!settings.sectionExists(section))
 			throw new MissingSectionException(section);
 
-		if (!settings.settingExists(section, setting))
-			throw new MissingSettingException(section, setting);
+		if (!settings.settingExists(section, settingName))
+			throw new MissingSettingException(section, settingName);
 
 		SectionMapping sectionObject = settings.getSection(section);
-		Setting field = sectionObject.getSetting(setting);
-		ParseContext context = new ParseContext(section, setting, value, field.field.getType());
+		Setting setting = sectionObject.getSetting(settingName);
+		ParseContext context = new ParseContext(section, settingName, value, setting.getFieldType());
 		Object rawValue = ConfigurationValueParser.getValue(context);
-		field.setValue(rawValue);
+		setting.setValue(rawValue);
 
 		SlinkydogDebug.softNullAssert(sectionObject, "sectionObject");
-		SlinkydogDebug.softNullAssert(field, "field");
+		SlinkydogDebug.softNullAssert(setting, "field");
 		SlinkydogDebug.softNullAssert(configFile, "configFile");
 		SlinkydogDebug.softNullAssert(rawValue, "rawValue");
 
-		configFile.set(type.getSimpleName() + "." + sectionObject.name + "." + field.name, rawValue);
+		configFile.set(setting.getNameInFile(), rawValue);
 		plugin.saveConfig();
 	}
 }
