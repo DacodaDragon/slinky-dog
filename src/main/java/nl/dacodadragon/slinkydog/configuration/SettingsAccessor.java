@@ -80,9 +80,10 @@ public class SettingsAccessor {
 		
 		if (setting.isCollection()) {
 			performCollectionAction(setting, args);
+			return;
 		}
 
-		SetPrimitiveValue(setting, args[3]);
+		SetPrimitiveValue(setting, args[2]);
 	}
 
 	private void performCollectionAction(Setting setting, String[] args){
