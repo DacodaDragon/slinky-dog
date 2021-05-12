@@ -14,6 +14,9 @@ public final class ConfigurationValueParser {
 		if (targetType.equals(String.class))
 			return context.getValue();
 
+		if (targetType.equals(byte.class) || targetType.equals(Byte.class))
+			return parseByte(context);
+
 		if (targetType.equals(int.class) || targetType.equals(Integer.class))
 			return parseInt(context);
 
@@ -22,6 +25,12 @@ public final class ConfigurationValueParser {
 
 		if (targetType.equals(float.class) || targetType.equals(Float.class))
 			return parseFloat(context);
+
+		if (targetType.equals(long.class) || targetType.equals(Long.class))
+			return parseLong(context);
+
+		if (targetType.equals(short.class) || targetType.equals(Short.class))
+			return parseShort(context);
 
 		if (targetType.equals(boolean.class) || targetType.equals(Boolean.class))
 			return parseBoolean(context);
@@ -64,9 +73,33 @@ public final class ConfigurationValueParser {
 		}
 	}
 
+	private static Object parseByte(ParseContext context) {
+		try {
+			return Byte.parseByte(context.getValue());
+		} catch (NumberFormatException e) {
+			throw new InvalidValueException(context, "Value isn't a whole number.");
+		}
+	}
+
+	private static Object parseShort(ParseContext context) {
+		try {
+			return Integer.parseInt(context.getValue());
+		} catch (NumberFormatException e) {
+			throw new InvalidValueException(context, "Value isn't a whole number.");
+		}
+	}
+
 	private static Object parseInt(ParseContext context) {
 		try {
 			return Integer.parseInt(context.getValue());
+		} catch (NumberFormatException e) {
+			throw new InvalidValueException(context, "Value isn't a whole number.");
+		}
+	}
+
+	private static Object parseLong(ParseContext context) {
+		try {
+			return Integer.parseLong(context.getValue());
 		} catch (NumberFormatException e) {
 			throw new InvalidValueException(context, "Value isn't a whole number.");
 		}
