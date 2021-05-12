@@ -3,6 +3,7 @@ package nl.dacodadragon.slinkydog.configuration;
 import nl.dacodadragon.slinkydog.configuration.exceptions.InvalidValueException;
 import nl.dacodadragon.slinkydog.utility.EnumUtil;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 
@@ -99,7 +100,7 @@ public final class ConfigurationValueParser {
 
 	private static Object parseLong(ParseContext context) {
 		try {
-			return Integer.parseLong(context.getValue());
+			return Long.parseLong(context.getValue());
 		} catch (NumberFormatException e) {
 			throw new InvalidValueException(context, "Value isn't a whole number.");
 		}
