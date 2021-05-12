@@ -36,6 +36,9 @@ public final class ConfigurationValueParser {
 		if (targetType.equals(boolean.class) || targetType.equals(Boolean.class))
 			return parseBoolean(context);
 
+		if (targetType.equals(BigInteger.class))
+			return parseBigInteger(context);
+
 		if (targetType.isEnum())
 			return parseEnumValue(context);
 
@@ -45,6 +48,14 @@ public final class ConfigurationValueParser {
 
 		throw new RuntimeException("Cannot parse type " + targetType.getName());
 
+	}
+
+	private static Object parseBigInteger(ParseContext context) {
+		try {
+			return new BigInteger(context.getValue());
+		} catch (NumberFormatException e) {
+			throw new InvalidValueException(context, "Value isn't a whole number.");
+		}
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
